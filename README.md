@@ -37,3 +37,5 @@ Aplikasi menggunakan minimal 2 tabel utama:
 - Menghapus data buku
 - Logout
 - Dashboard sederhana dengan statistik total buku dan stok
+
+## Terimakacihhhhhh

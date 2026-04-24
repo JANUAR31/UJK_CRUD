@@ -35,7 +35,7 @@ if (isset($_SESSION['user'])) {
                                     <div class="mx-auto mb-4 rounded-pill bg-white" style="width: 90px; height: 4px; opacity: 0.9;"></div>
 
                                     <p class="mb-0 opacity-75 fs-6">
-                                        Login admin untuk mengelola data buku secara aman, rapi, dan terstruktur.
+                                        Kelola data buku perpustakaan dengan mudah, cepat, dan terstruktur.
                                     </p>
                                 </div>
                             </div>
