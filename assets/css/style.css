@@ -1,6 +1,5 @@
 body {
     font-family: Arial, sans-serif;
-    color: #1e293b;
 }
 
 .auth-page {
@@ -15,37 +14,11 @@ body {
 
 .auth-card {
     border-radius: 24px;
-    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.10);
-    overflow: hidden;
-    backdrop-filter: blur(6px);
 }
 
 .auth-side-left {
+    background: linear-gradient(135deg, #0d6efd 0%, #3b82f6 100%);
     min-height: 100%;
-    background: linear-gradient(135deg, #0d6efd 0%, #3b82f6 55%, #2563eb 100%);
-    position: relative;
-}
-
-.auth-side-left::before {
-    content: "";
-    position: absolute;
-    width: 220px;
-    height: 220px;
-    top: -70px;
-    left: -70px;
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 50%;
-}
-
-.auth-side-left::after {
-    content: "";
-    position: absolute;
-    width: 160px;
-    height: 160px;
-    bottom: 30px;
-    right: 30px;
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 50%;
 }
 
 .app-navbar {
@@ -54,8 +27,6 @@ body {
 
 .stat-card {
     border-radius: 18px;
-    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
-    border: none;
 }
 
 .card,
@@ -66,65 +37,6 @@ body {
     border-radius: 14px !important;
 }
 
-.form-control {
-    border: 1px solid #d9e2f1;
-    padding-top: 0.85rem;
-    padding-bottom: 0.85rem;
-    box-shadow: none !important;
-    transition: all 0.2s ease;
-}
-
-.form-control:focus {
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.15) !important;
-}
-
-.btn {
-    font-weight: 600;
-    transition: all 0.2s ease;
-}
-
-.btn-primary {
-    background: linear-gradient(135deg, #0d6efd 0%, #2563eb 100%);
-    border: none;
-}
-
-.btn-primary:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.18);
-}
-
-.alert {
-    border: none;
-    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.05);
-}
-
-.badge {
-    font-size: 0.8rem;
-    letter-spacing: 0.3px;
-}
-
 .table > :not(caption) > * > * {
     padding: 0.95rem 0.75rem;
-    vertical-align: middle;
-}
-
-.table thead th {
-    background-color: #f8fafc;
-    font-weight: 700;
-    color: #334155;
-}
-
-.table tbody tr:hover {
-    background-color: #f8fbff;
-}
-
-.auth-page a,
-.dashboard-page a {
-    color: #2563eb;
-}
-
-.auth-page a:hover,
-.dashboard-page a:hover {
-    color: #1d4ed8;
 }
