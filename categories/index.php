@@ -7,36 +7,33 @@ $search = trim($_GET['search'] ?? '');
 
 if ($search !== '') {
     $stmt = $pdo->prepare("
-        SELECT * FROM books
-        WHERE title LIKE ?
-           OR author LIKE ?
-           OR publisher LIKE ?
-           OR year_published LIKE ?
+        SELECT * FROM categories
+        WHERE name LIKE ?
+           OR description LIKE ?
         ORDER BY id DESC
     ");
     $keyword = "%$search%";
-    $stmt->execute([$keyword, $keyword, $keyword, $keyword]);
+    $stmt->execute([$keyword, $keyword]);
 } else {
-    $stmt = $pdo->query('SELECT * FROM books ORDER BY id DESC');
+    $stmt = $pdo->query('SELECT * FROM categories ORDER BY id DESC');
 }
 
-$books = $stmt->fetchAll(PDO::FETCH_ASSOC);
-$totalBooks = count($books);
-$totalStock = array_sum(array_column($books, 'stock'));
+$categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$totalCategories = count($categories);
 ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Buku</title>
+    <title>Data Kategori</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/style.css?v=2">
 </head>
 <body class="dashboard-page">
 <nav class="navbar navbar-expand-lg navbar-dark app-navbar shadow-sm">
     <div class="container">
-        <a class="navbar-brand fw-bold" href="#">AnggepAjaPerpustakaan</a>
+        <a class="navbar-brand fw-bold" href="../books/index.php">AnggepAjaPerpustakaan</a>
         <div class="d-flex align-items-center gap-2 text-white small">
             <span>Login sebagai <strong><?= e($_SESSION['user']['name']) ?></strong></span>
             <a href="../auth/logout.php" class="btn btn-outline-light btn-sm">Logout</a>
@@ -47,13 +44,13 @@ $totalStock = array_sum(array_column($books, 'stock'));
 <div class="container py-4">
     <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
         <div>
-            <h1 class="h3 fw-bold mb-1">Dashboard Data Buku</h1>
-            <p class="text-muted mb-0">Kelola data buku perpustakaan melalui fitur CRUD.</p>
+            <h1 class="h3 fw-bold mb-1">Dashboard Data Kategori</h1>
+            <p class="text-muted mb-0">Kelola data kategori buku melalui fitur CRUD.</p>
         </div>
 
         <div class="d-flex gap-2">
-            <a href="../categories/index.php" class="btn btn-outline-secondary">Data Kategori</a>
-            <a href="create.php" class="btn btn-primary">+ Tambah Buku</a>
+            <a href="../books/index.php" class="btn btn-outline-secondary">Data Buku</a>
+            <a href="create.php" class="btn btn-primary">+ Tambah Kategori</a>
         </div>
     </div>
 
@@ -61,9 +58,9 @@ $totalStock = array_sum(array_column($books, 'stock'));
         <div class="alert alert-success">
             <?php
             $messages = [
-                'created' => 'Data buku berhasil ditambahkan.',
-                'updated' => 'Data buku berhasil diperbarui.',
-                'deleted' => 'Data buku berhasil dihapus.'
+                'created' => 'Data kategori berhasil ditambahkan.',
+                'updated' => 'Data kategori berhasil diperbarui.',
+                'deleted' => 'Data kategori berhasil dihapus.'
             ];
             echo e($messages[$_GET['message']] ?? 'Operasi berhasil.');
             ?>
@@ -71,19 +68,11 @@ $totalStock = array_sum(array_column($books, 'stock'));
     <?php endif; ?>
 
     <div class="row g-3 mb-4">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="card border-0 shadow-sm stat-card h-100">
                 <div class="card-body">
-                    <p class="text-muted mb-2">Total Judul Buku</p>
-                    <h2 class="fw-bold mb-0"><?= $totalBooks ?></h2>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card border-0 shadow-sm stat-card h-100">
-                <div class="card-body">
-                    <p class="text-muted mb-2">Total Stok Buku</p>
-                    <h2 class="fw-bold mb-0"><?= $totalStock ?></h2>
+                    <p class="text-muted mb-2">Total Kategori</p>
+                    <h2 class="fw-bold mb-0"><?= $totalCategories ?></h2>
                 </div>
             </div>
         </div>
@@ -92,14 +81,14 @@ $totalStock = array_sum(array_column($books, 'stock'));
     <div class="card border-0 shadow-sm">
         <div class="card-body">
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-3">
-                <h5 class="mb-0 fw-bold">Daftar Buku</h5>
+                <h5 class="mb-0 fw-bold">Daftar Kategori</h5>
 
                 <form action="" method="GET" class="d-flex flex-column flex-sm-row gap-2">
                     <input
                         type="text"
                         name="search"
                         class="form-control"
-                        placeholder="Cari judul, penulis, penerbit, tahun..."
+                        placeholder="Cari nama atau deskripsi kategori..."
                         value="<?= e($search) ?>"
                     >
                     <button type="submit" class="btn btn-primary">Cari</button>
@@ -118,34 +107,28 @@ $totalStock = array_sum(array_column($books, 'stock'));
                     <thead class="table-light">
                         <tr>
                             <th>No</th>
-                            <th>Judul</th>
-                            <th>Penulis</th>
-                            <th>Penerbit</th>
-                            <th>Tahun</th>
-                            <th>Stok</th>
+                            <th>Nama Kategori</th>
+                            <th>Deskripsi</th>
                             <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php if ($totalBooks > 0): ?>
-                            <?php foreach ($books as $index => $book): ?>
+                        <?php if ($totalCategories > 0): ?>
+                            <?php foreach ($categories as $index => $category): ?>
                                 <tr>
                                     <td><?= $index + 1 ?></td>
-                                    <td class="fw-semibold"><?= e($book['title']) ?></td>
-                                    <td><?= e($book['author']) ?></td>
-                                    <td><?= e($book['publisher']) ?></td>
-                                    <td><?= e((string) $book['year_published']) ?></td>
-                                    <td><span class="badge text-bg-primary"><?= e((string) $book['stock']) ?></span></td>
+                                    <td class="fw-semibold"><?= e($category['name']) ?></td>
+                                    <td><?= e($category['description']) ?></td>
                                     <td class="text-center">
-                                        <a href="edit.php?id=<?= $book['id'] ?>" class="btn btn-warning btn-sm">Edit</a>
-                                        <a href="delete.php?id=<?= $book['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</a>
+                                        <a href="edit.php?id=<?= $category['id'] ?>" class="btn btn-warning btn-sm">Edit</a>
+                                        <a href="delete.php?id=<?= $category['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="7" class="text-center py-4 text-muted">
-                                    Tidak ada data buku yang sesuai dengan pencarian.
+                                <td colspan="4" class="text-center py-4 text-muted">
+                                    Tidak ada data kategori yang sesuai.
                                 </td>
                             </tr>
                         <?php endif; ?>
