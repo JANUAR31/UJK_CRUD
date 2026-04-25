@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 22, 2026 at 04:47 PM
+-- Generation Time: Apr 25, 2026 at 06:17 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 7.4.33
 
@@ -45,7 +45,31 @@ INSERT INTO `books` (`id`, `title`, `author`, `publisher`, `year_published`, `st
 (1, 'Kisah Hidup Pria Solo', 'Xing Fei', 'Hwang Media', 2022, 10, '2026-04-20 15:25:24'),
 (2, 'Ayah Mengapa Aku WNI?', 'Ajis Hartono', 'Bramedia', 2021, 8, '2026-04-20 15:25:24'),
 (3, 'Aku Bisa Pasang Kopling Supra', 'Pidi Jahad', 'Elex Media', 2023, 12, '2026-04-20 15:25:24'),
-(4, 'Habib Mencari Cinta', 'Faiz Lahadahlia', 'Cahaya Abadi', 2006, 1, '2026-04-22 14:40:29');
+(4, 'Habib Mencari Cinta', 'Faiz Lahadahlia', 'Cahaya Abadi', 1945, 1, '2026-04-22 14:40:29');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `categories`
+--
+
+CREATE TABLE `categories` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `description` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`id`, `name`, `description`, `created_at`) VALUES
+(1, 'Novel', 'Kategori buku fiksi dan cerita', '2026-04-25 02:31:44'),
+(2, 'Pendidikan', 'Kategori buku pembelajaran dan akademik', '2026-04-25 02:31:44'),
+(3, 'Motivasi', 'Kategori buku pengembangan diri dan inspirasi', '2026-04-25 02:31:44'),
+(4, 'Teknologi', 'Kategori buku terkait komputer dan teknologi', '2026-04-25 02:31:44'),
+(5, 'Sejarah', 'Kategori buku sejarah dan peristiwa masa lalu', '2026-04-25 02:31:44');
 
 -- --------------------------------------------------------
 
@@ -80,6 +104,12 @@ ALTER TABLE `books`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -94,7 +124,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `books`
 --
 ALTER TABLE `books`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `users`
